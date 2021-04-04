@@ -1,0 +1,146 @@
+.container {
+  max-width: 2000px !important;
+  /* margin: 2%; */
+}
+
+.main-container {
+  /* margin-top: 4%; */
+  display: flex;
+  /* flex-direction: column; */
+}
+
+.filters-container {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+  margin-left: 5%;
+}
+
+.report-container {
+  width: 70%;
+}
+
+.game-report-container {
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin-left: 4%;
+}
+
+.filter-header {
+  width: 30%;
+}
+
+.graph-header {
+  width: 70%;
+  justify-content: end;
+}
+
+.bg-dark {
+  background-color: #000000 !important;
+}
+
+.game-selector {
+  justify-content: space-around;
+  display: flex;
+}
+
+.game-filters-container {
+  margin-left: 0%;
+}
+
+.score-container {
+  display: flex;
+}
+.team-details {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+.team-name {
+  display: flex;
+  justify-content: center;
+}
+.record {
+  display: flex;
+  justify-content: center;
+}
+
+.game-status {
+  justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  align-items: center;
+}
+
+.team-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 40%;
+}
+.team-score {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+.bold {
+  font-weight: "bold";
+}
+.accordion-content-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.accordion-content-row {
+  display: flex;
+}
+.accordion-content-item {
+  display: flex;
+  justify-content: center;
+}
+
+.top-item {
+  width: 33%;
+}
+.bottom-item {
+  width: 50%;
+}
+
+.comment-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-row {
+  margin-bottom: 3%;
+}
+.positive-metric {
+  color: green;
+}
+.negative-metric {
+  color: red;
+}
+.icon-down {
+  color: red;
+}
+.icon-up {
+  color: green;
+}
+.icon {
+  margin-left: 0.2em;
+}
+.metric-display {
+  display: flex;
+}
