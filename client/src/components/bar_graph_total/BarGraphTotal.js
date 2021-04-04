@@ -28,6 +28,7 @@ class BarGraphTotal extends Component {
     }
     transformData(dataset) {
         return dataset.map((data) => {
+            console.log("Data in map:  "+ data)
             let label = '', result, routeVariable;
             if (data.team_id == data.home_team_id) {
                 label += 'vs ' + data.away_team_name;
@@ -98,7 +99,7 @@ class BarGraphTotal extends Component {
                                     target : 'data',
                                     eventHandlers : {
                                         onClick: (evt, clickedProps) => {
-                                            this.props.history.push('/' + this.props.routeEndPoint + '?' + this.props.routeVariable + '=' + clickedProps.datum[this.props.routeVariable])
+                                            this.props.history.push('/' + this.props.routeEndPoint + '?' + this.props.routeVariable + '=' + clickedProps.datum[this.props.routeVariable] + '&date=' + clickedProps.datum.x)
                                         }
                                     }
                                 }

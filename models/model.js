@@ -32,7 +32,7 @@ const getPlayerReport = (date) => {
 }
 const getTeamReportTotal = (team_id) => {
     return new Promise(function(resolve, reject) {
-        queryString = "select away_team.name as away_team_name, home_team.name as home_team_name,a.*, b.* from scores a, team_report b, teams home_team, teams away_team where a.date = b.date and (b.team_id = a.home_team_id or b.team_id = a.away_team_id) and b.team_id = " + team_id + " and a.home_team_id = home_team.team_id and a.away_team_id = away_team.team_id";
+        queryString = "select away_team.name as away_team_name, home_team.name as home_team_name,a.*, b.*,b.fg3m_diff_open *3 as fg3_pts_diff_open,b.fg3m_daily_open *3 as fg3_pts_daily_open,b.fg3m_total_open *3 as fg3_pts_total_open,b.fg3m_diff_tight *3 as fg3_pts_diff_tight,b.fg3m_daily_tight *3 as fg3_pts_daily_tight,b.fg3m_total_tight *3 as fg3_pts_total_tight from scores a, team_report b, teams home_team, teams away_team where a.date = b.date and (b.team_id = a.home_team_id or b.team_id = a.away_team_id) and b.team_id = " + team_id + " and a.home_team_id = home_team.team_id and a.away_team_id = away_team.team_id";
         pool.query(queryString, (error, results) => {
             if (error) {
                 reject(error)

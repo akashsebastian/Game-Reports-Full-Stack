@@ -34,23 +34,23 @@ export default class GameReport extends Component {
     componentDidMount() {
         const values = queryString.parse(this.props.location.search)
         let date = null
-        if (values.date) {
-            date = new Date(values.date+'T00:00:00')
-        }
-        else {
-            date = new Date()
-            date.setDate(date.getDate() - 1);
-        }
+        date = new Date()
+        date.setDate(date.getDate() - 1);
         this.setState({
             date: date
         })
-        console.log(date)
+        console.log("Mounted date: " + this.state.date)
         axios.get('/api/v1/get-video-status?date=' + format(date, 'yyyy-MM-dd')).then((res) => {
             const response = res.data;
             console.log(response)
             this.setState({video_status : response});
         });
-        if (values.game_id) {
+        if (values.game_id && values.date) {
+            this.setState({
+                date: new Date(Date.parse(values.date))
+            })
+            console.log("value from URL: " + values.date)
+            console.log("Got date from URL " + this.state.date)
             this.updateGame(values.game_id)
         }
     }
@@ -88,6 +88,7 @@ export default class GameReport extends Component {
                     score : response,
                     gotScore: true
                 });
+                console.log("Date in update: " + this.state.date)
                 let date = format(this.state.date, 'yyyy-MM-dd')
                 axios.get('/api/v1/get-team-report-daily?team_id=' + response[0].home_team_id + '&date=' + date).then((res) => {
                     const response = res.data;
