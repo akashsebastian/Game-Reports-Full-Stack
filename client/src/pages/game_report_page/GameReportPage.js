@@ -82,6 +82,7 @@ export default class GameReport extends Component {
                 });
             });
             axios.get('/api/v1/get-score?game_id=' + game_id).then((res) => {
+                let date = format(this.state.date, 'yyyy-MM-dd')
                 const response = res.data;
                 console.log(response)
                 this.setState({
@@ -89,7 +90,6 @@ export default class GameReport extends Component {
                     gotScore: true
                 });
                 console.log("Date in update: " + this.state.date)
-                let date = format(this.state.date, 'yyyy-MM-dd')
                 axios.get('/api/v1/get-team-report-daily?team_id=' + response[0].home_team_id + '&date=' + date).then((res) => {
                     const response = res.data;
                     console.log(response)
