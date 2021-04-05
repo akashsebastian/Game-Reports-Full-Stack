@@ -40,7 +40,7 @@ export default class GameReport extends Component {
             date: date
         })
         console.log("Mounted date: " + this.state.date)
-        axios.get('/api/v1/get-video-status?date=' + format(date, 'yyyy-MM-dd')).then((res) => {
+        axios.get('/api/v1/get-video-status?date=' + date.toISOString().split('T')[0]).then((res) => {
             const response = res.data;
             console.log(response)
             this.setState({video_status : response});
@@ -59,7 +59,7 @@ export default class GameReport extends Component {
         this.setState({
             date: date
         })
-        date = format(date, 'yyyy-MM-dd')
+        date = date.toISOString().split('T')[0]
         console.log(date)
         axios.get('/api/v1/get-video-status?date=' + date).then((res) => {
             const response = res.data;
@@ -82,7 +82,7 @@ export default class GameReport extends Component {
                 });
             });
             axios.get('/api/v1/get-score?game_id=' + game_id).then((res) => {
-                let date = format(this.state.date, 'yyyy-MM-dd')
+                let date = this.state.date.toISOString().split('T')[0]
                 const response = res.data;
                 console.log(response)
                 this.setState({
