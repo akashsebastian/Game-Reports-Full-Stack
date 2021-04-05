@@ -57,10 +57,12 @@ export default class PlayerReportPage extends Component {
                     {'name' : 'Three Pointers Attempted', 'column_name' : 'catch_shoot_fg3a_diff'},
                 ],
                 'Open Three Pointers': [
+                    {'name' : 'Three Pointers Points', 'column_name' : 'fg3_pts_diff_open'},
                     {'name' : 'Three Pointers Made', 'column_name' : 'fg3m_diff_open'},
                     {'name' : 'Three Pointers Attempted', 'column_name' : 'fg3a_diff_open'},
                 ],
                 'Contested Three Pointers': [
+                    {'name' : 'Three Pointers Points', 'column_name' : 'fg3_pts_diff_tight'},
                     {'name' : 'Three Pointers Made', 'column_name' : 'fg3m_diff_tight'},
                     {'name' : 'Three Pointers Attempted', 'column_name' : 'fg3a_diff_tight'},
                 ]
