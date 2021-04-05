@@ -177,7 +177,7 @@ function getOpenThrees(openThrees) {
     if (openThrees > 0) {
         return (<div class = 'metric-display'>
             <span>
-                Open Three Pointers Made: +
+                Open Three Pointers Points: +
             </span>
             <span class = 'positive-metric'>
                 {Number(openThrees).toFixed(2)}
@@ -193,7 +193,7 @@ function getOpenThrees(openThrees) {
     else if (openThrees < 0) {
         return (<div class = 'metric-display'>
             <span>
-                Open Three Pointers Made: -
+                Open Three Pointers Points: -
             </span>
             <span class = 'negative-metric'>
                 {Math.abs(Number(openThrees).toFixed(2))}
@@ -209,7 +209,7 @@ function getOpenThrees(openThrees) {
     else {
         return (<div>
             <span>
-                Open Three Pointers Made:
+                Open Three Pointers Points:
             </span>
             <span>
                 {openThrees}
@@ -223,7 +223,7 @@ function getContestedThrees(contestedThrees) {
     if (contestedThrees > 0) {
         return (<div class = 'metric-display'>
             <span>
-                Contested Three Pointers Made: +
+                Contested Three Pointers Points: +
             </span>
             <span class = 'positive-metric'>
                 {Number(contestedThrees).toFixed(2)}
@@ -239,7 +239,7 @@ function getContestedThrees(contestedThrees) {
     else if (contestedThrees < 0) {
         return (<div class = 'metric-display'>
             <span>
-                Contested Three Pointers Made: -
+                Contested Three Pointers Points: -
             </span>
             <span class = 'negative-metric'>
                 {Math.abs(Number(contestedThrees).toFixed(2))}
@@ -255,7 +255,7 @@ function getContestedThrees(contestedThrees) {
     else {
         return (<div>
             <span>
-                Contested Three Pointers Made: 
+                Contested Three Pointers Points: 
             </span>
             <span>
                 {contestedThrees}
@@ -299,10 +299,10 @@ export default function ControlledAccordions({teamReportData, teamReportDailyDat
                     </div>
                     <div class = 'accordion-content-row'>
                         <div class = 'bottom-item accordion-content-item'>
-                            {getOpenThrees(teamReportDailyData[0].fg3m_diff_open)}
+                            {getOpenThrees(teamReportDailyData[0].fg3_pts_diff_open)}
                         </div>
                         <div class = 'bottom-item accordion-content-item'>
-                            {getContestedThrees(teamReportDailyData[0].fg3m_diff_tight)}
+                            {getContestedThrees(teamReportDailyData[0].fg3_pts_diff_tight)}
                         </div>
                     </div>
                 </div>
@@ -322,8 +322,8 @@ export default function ControlledAccordions({teamReportData, teamReportDailyDat
                 // Catch and Shoot
                 catchAndShoot = getCatchShoot(data.catch_shoot_pts_diff);
                 pullUpShooting = getPullUp(data.pull_up_pts_diff);
-                openThrees = getOpenThrees(data.fg3m_diff_open);
-                contestedThrees = getContestedThrees(data.fg3m_diff_tight);
+                openThrees = getOpenThrees(data.fg3_pts_diff_open);
+                contestedThrees = getContestedThrees(data.fg3_pts_diff_tight);
                 header = <div className={classes.header}>
                     <Typography className={[classes.secondaryHeading, classes.metricHeading].join(' ')}>Min: {data.min}</Typography>
                     <Typography className={[classes.secondaryHeading, classes.metricHeading].join(' ')}>Points: {data.pts}</Typography>

@@ -44,7 +44,7 @@ const getTeamReportTotal = (team_id) => {
 
 const getTeamReportDaily = (team_id, date) => {
     return new Promise(function(resolve, reject) {
-        queryString = "select * from team_report, teams where team_report.team_id = teams.team_id and team_report.team_id = " + team_id + " and date = '" + date + "'";
+        queryString = "select *,team_report.fg3m_diff_open *3 as fg3_pts_diff_open,team_report.fg3m_daily_open *3 as fg3_pts_daily_open,team_report.fg3m_total_open *3 as fg3_pts_total_open,team_report.fg3m_diff_tight *3 as fg3_pts_diff_tight,team_report.fg3m_daily_tight *3 as fg3_pts_daily_tight,team_report.fg3m_total_tight *3 as fg3_pts_total_tight from team_report, teams where team_report.team_id = teams.team_id and team_report.team_id = " + team_id + " and date = '" + date + "'";
         pool.query(queryString, (error, results) => {
             if (error) {
                 reject(error)
@@ -105,7 +105,7 @@ const getPlayerReportTotal = (player_id) => {
 
 const getGameReport = (game_id) => {
     return new Promise(function(resolve, reject) {
-        queryString = "select * from (select box_score.*, video_status.game_date from box_score, video_status where  box_score.game_id = video_status.game_id) as box_score_extended left join player_report on box_score_extended.game_date = player_report.date and box_score_extended.player_id = player_report.player_id where box_score_extended.game_id = '" + game_id +"'";
+        queryString = "select *,player_report.fg3m_diff_open *3 as fg3_pts_diff_open,player_report.fg3m_daily_open *3 as fg3_pts_daily_open,player_report.fg3m_total_open *3 as fg3_pts_total_open,player_report.fg3m_diff_tight *3 as fg3_pts_diff_tight,player_report.fg3m_daily_tight *3 as fg3_pts_daily_tight,player_report.fg3m_total_tight *3 as fg3_pts_total_tight from (select box_score.*, video_status.game_date from box_score, video_status where  box_score.game_id = video_status.game_id) as box_score_extended left join player_report on box_score_extended.game_date = player_report.date and box_score_extended.player_id = player_report.player_id where box_score_extended.game_id = '" + game_id +"'";
         pool.query(queryString, (error, results) => {
             if (error) {
                 reject(error)
