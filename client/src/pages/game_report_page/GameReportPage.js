@@ -27,7 +27,8 @@ export default class GameReport extends Component {
             homeTeamReportDaily : [],
             gotHomeTeamReportDaily : false,
             awayTeamReportDaily : [],
-            gotAwayTeamReportDaily : false
+            gotAwayTeamReportDaily : false,
+            selectedStats : null
         }
     }
 
@@ -66,6 +67,10 @@ export default class GameReport extends Component {
             console.log(response)
             this.setState({video_status : response});
         });
+    }
+
+    handleSelectedStats = (category) => {
+        console.log(category)
     }
 
     updateGame = (game_id) => {
@@ -167,6 +172,9 @@ export default class GameReport extends Component {
                     <br/>
                     <div class = 'game-selector'>
                         <Search data = {this.state.video_status} updateFunction = {this.updateGame} updateVariable = {this.state.gameUpdateVariable} optionFunc = {this.getGameOption} label = {this.state.gameLabel}></Search>
+                    </div>
+                    <div class = 'select-stats-container'>
+                        {this.state.selectedStats}
                     </div>
                 </div>
                 <div class = 'game-report-container report-container'>

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     display: 'flex',
-    width: '600px'
+    width: '650px'
   },
   metricHeading: {
     //   paddingLeft: '3em'
