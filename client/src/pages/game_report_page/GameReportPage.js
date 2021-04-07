@@ -1,16 +1,14 @@
 import React from 'react';
 import MaterialUIPickers from '../../components/date/Date'
-import GamesList from '../games_list/GamesList'
 import queryString from 'query-string';
-import { format } from "date-fns";
 import axios from 'axios'
 import { Component } from 'react';
-import GameTile from '../../components/game_tile/GameTile'
 import Search from '../../components/search/Search'
 import '../../css/style.css'
-import BarGraphTotal from '../../components/bar_graph_total/BarGraphTotal'
 import Tabs from '../../components/tabs/Tabs'
+import BarGraphSingle from '../../components/bar_graph_single/BarGraphSingle'
 
+// Game Report Page
 export default class GameReport extends Component {
 
     constructor(props){
@@ -28,7 +26,7 @@ export default class GameReport extends Component {
             gotHomeTeamReportDaily : false,
             awayTeamReportDaily : [],
             gotAwayTeamReportDaily : false,
-            selectedStats : null
+            selectedStats : null,
         }
     }
 
@@ -40,18 +38,14 @@ export default class GameReport extends Component {
         this.setState({
             date: date
         })
-        console.log("Mounted date: " + this.state.date)
         axios.get('/api/v1/get-video-status?date=' + date.toISOString().split('T')[0]).then((res) => {
             const response = res.data;
-            console.log(response)
             this.setState({video_status : response});
         });
         if (values.game_id && values.date) {
             this.setState({
                 date: new Date(Date.parse(values.date))
             })
-            console.log("value from URL: " + values.date)
-            console.log("Got date from URL " + this.state.date)
             this.updateGame(values.game_id)
         }
     }
@@ -61,16 +55,10 @@ export default class GameReport extends Component {
             date: date
         })
         date = date.toISOString().split('T')[0]
-        console.log(date)
         axios.get('/api/v1/get-video-status?date=' + date).then((res) => {
             const response = res.data;
-            console.log(response)
             this.setState({video_status : response});
         });
-    }
-
-    handleSelectedStats = (category) => {
-        console.log(category)
     }
 
     updateGame = (game_id) => {
@@ -80,7 +68,6 @@ export default class GameReport extends Component {
             })
             axios.get('/api/v1/get-game-report?game_id=' + game_id).then((res) => {
                 const response = res.data;
-                console.log(response)
                 this.setState({
                     gameReport : response,
                     gotGameReport : true
@@ -89,15 +76,12 @@ export default class GameReport extends Component {
             axios.get('/api/v1/get-score?game_id=' + game_id).then((res) => {
                 let date = this.state.date.toISOString().split('T')[0]
                 const response = res.data;
-                console.log(response)
                 this.setState({
                     score : response,
                     gotScore: true
                 });
-                console.log("Date in update: " + this.state.date)
                 axios.get('/api/v1/get-team-report-daily?team_id=' + response[0].home_team_id + '&date=' + date).then((res) => {
                     const response = res.data;
-                    console.log(response)
                     this.setState({
                         homeTeamReportDaily : response,
                         gotHomeTeamReportDaily: true
@@ -105,7 +89,6 @@ export default class GameReport extends Component {
                 });
                 axios.get('/api/v1/get-team-report-daily?team_id=' + response[0].away_team_id + '&date=' + date).then((res) => {
                     const response = res.data;
-                    console.log(response)
                     this.setState({
                         awayTeamReportDaily : response,
                         gotAwayTeamReportDaily: true
@@ -118,8 +101,15 @@ export default class GameReport extends Component {
     getGameOption = (option) => {
         return (option.visitor_team_name + ' at ' + option.home_team_name)
     }
+
+    onClickMetric = (metricKey, data) => {
+        this.setState({
+            metricKey : metricKey,
+            metricData : data
+        })
+    }
     render (){
-        let score, tabs, homeTeamReport, awayTeamReport;
+        let score, tabs, homeTeamReport, awayTeamReport, selectedStats;
         if (this.state.gotScore) {
             score = <div class = 'score-container'>
                 <div class = 'team-wrapper'>
@@ -156,7 +146,13 @@ export default class GameReport extends Component {
         if (this.state.gotGameReport && this.state.gotScore && this.state.gotHomeTeamReportDaily && this.state.gotAwayTeamReportDaily) {
             homeTeamReport = this.state.gameReport.filter(data => data.team_id == this.state.score[0].home_team_id)
             awayTeamReport = this.state.gameReport.filter(data => data.team_id == this.state.score[0].away_team_id)
-            tabs = <Tabs awayTeamName = {this.state.score[0].away_team_name} homeTeamName = {this.state.score[0].home_team_name} homeTeamReport = {homeTeamReport} awayTeamReport = {awayTeamReport} homeTeamReportDaily = {this.state.homeTeamReportDaily} awayTeamReportDaily = {this.state.awayTeamReportDaily}></Tabs>
+            tabs = <Tabs awayTeamName = {this.state.score[0].away_team_name} homeTeamName = {this.state.score[0].home_team_name} homeTeamReport = {homeTeamReport} awayTeamReport = {awayTeamReport} homeTeamReportDaily = {this.state.homeTeamReportDaily} awayTeamReportDaily = {this.state.awayTeamReportDaily} onClickMetric = {this.onClickMetric}></Tabs>
+        }
+        if (this.state.metricKey) {
+            selectedStats = <BarGraphSingle
+                metricKey = {this.state.metricKey}
+                metricData = {this.state.metricData}
+            />
         }
         return (
             <div class = 'main-container'>
@@ -174,7 +170,7 @@ export default class GameReport extends Component {
                         <Search data = {this.state.video_status} updateFunction = {this.updateGame} updateVariable = {this.state.gameUpdateVariable} optionFunc = {this.getGameOption} label = {this.state.gameLabel}></Search>
                     </div>
                     <div class = 'select-stats-container'>
-                        {this.state.selectedStats}
+                        {selectedStats}
                     </div>
                 </div>
                 <div class = 'game-report-container report-container'>

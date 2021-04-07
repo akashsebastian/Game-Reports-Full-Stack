@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import '../../css/style.css'
 
-
+// Navbar Component
 const Menu = () => {
   return (
     <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>

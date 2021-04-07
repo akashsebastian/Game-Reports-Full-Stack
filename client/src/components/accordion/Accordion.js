@@ -10,7 +10,40 @@ import { green, red } from '@material-ui/core/colors';
 import Icon from '@material-ui/core/Icon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'font-awesome/css/font-awesome.min.css';
+import Search from '../search/Search'
 
+const metric = {
+    'Drives': [
+        {'name' : 'Drives/G', 'column_name' : 'drives_diff'},
+        {'name' : 'Field Goals Made', 'column_name' : 'drive_fgm_diff'},
+        {'name' : 'Field Goals Attempted', 'column_name' : 'drive_fga_diff'},
+        {'name' : 'Points', 'column_name' : 'drive_pts_diff'},
+    ],
+    'Pull Up Shooting': [
+        {'name' : 'Field Goals Made', 'column_name' : 'pull_up_fgm_diff'},
+        {'name' : 'Field Goals Attempted', 'column_name' : 'pull_up_fga_diff'},
+        {'name' : 'Points', 'column_name' : 'pull_up_pts_diff'},
+        {'name' : 'Three Pointers Made', 'column_name' : 'pull_up_fg3m_diff'},
+        {'name' : 'Three Pointers Attempted', 'column_name' : 'pull_up_fg3a_diff'},
+    ],
+    'Catch and Shoot': [
+        {'name' : 'Field Goals Made', 'column_name' : 'catch_shoot_fgm_diff'},
+        {'name' : 'Field Goals Attempted', 'column_name' : 'catch_shoot_fga_diff'},
+        {'name' : 'Points', 'column_name' : 'catch_shoot_pts_diff'},
+        {'name' : 'Three Pointers Made', 'column_name' : 'catch_shoot_fg3m_diff'},
+        {'name' : 'Three Pointers Attempted', 'column_name' : 'catch_shoot_fg3a_diff'},
+    ],
+    'Open Three Pointers': [
+        {'name' : 'Three Pointers Points', 'column_name' : 'fg3_pts_diff_open'},
+        {'name' : 'Three Pointers Made', 'column_name' : 'fg3m_diff_open'},
+        {'name' : 'Three Pointers Attempted', 'column_name' : 'fg3a_diff_open'},
+    ],
+    'Contested Three Pointers': [
+        {'name' : 'Three Pointers Points', 'column_name' : 'fg3_pts_diff_tight'},
+        {'name' : 'Three Pointers Made', 'column_name' : 'fg3m_diff_tight'},
+        {'name' : 'Three Pointers Attempted', 'column_name' : 'fg3a_diff_tight'},
+    ]
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,20 +63,19 @@ const useStyles = makeStyles((theme) => ({
     width: '650px'
   },
   metricHeading: {
-    //   paddingLeft: '3em'
     width:'130px'
   }
 }));
 
-function getDrives(drives) {
+function getDrives(data, onClickMetric) {
     // Drives
-    if (drives > 0) {
-        return (<div class = 'metric-display'>
+    if (data.drives_diff > 0) {
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Drives", data)}>
             <span>
                 Drives Per Game: +
             </span>
             <span class = 'positive-metric'>
-                {Number(drives).toFixed(2)}
+                {Number(data.drives_diff).toFixed(2)}
             </span>
             <div class = 'icon-up icon'>
                 <Icon
@@ -53,13 +85,13 @@ function getDrives(drives) {
         </div>
         )
     }
-    else if (drives < 0) {
-        return (<div class = 'metric-display'>
+    else if (data.drives_diff < 0) {
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Drives", data)}>
             <span>
                 Drives Per Game: -
             </span>
             <span class = 'negative-metric'>
-                {Math.abs(Number(drives).toFixed(2))}
+                {Math.abs(Number(data.drives_diff).toFixed(2))}
             </span>
             <div class = 'icon-down icon'>
                 <Icon
@@ -70,25 +102,25 @@ function getDrives(drives) {
         )
     }
     else {
-        return (<div>
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Drives", data)}>
             <span>
                 Drives Per Game:
             </span>
             <span>
-                {drives}
+                {data.drives_diff}
             </span>
         </div>
         )
     }
 }
-function getCatchShoot(catchShoot) {
-    if (catchShoot > 0) {
-        return (<div class = 'metric-display'>
+function getCatchShoot(data, onClickMetric) {
+    if (data.catch_shoot_pts_diff > 0) {
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Catch and Shoot", data)}>
             <span>
                 Catch and Shoot Points: +
             </span>
             <span class = 'positive-metric'>
-                {Number(catchShoot).toFixed(2)}
+                {Number(data.catch_shoot_pts_diff).toFixed(2)}
             </span>
             <div class = 'icon-up icon'>
                 <Icon
@@ -98,13 +130,13 @@ function getCatchShoot(catchShoot) {
         </div>
         )
     }
-    else if (catchShoot < 0) {
-        return (<div class = 'metric-display'>
+    else if (data.catch_shoot_pts_diff < 0) {
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Catch and Shoot", data)}>
             <span>
                 Catch and Shoot Points: -
             </span>
             <span class = 'negative-metric'>
-                {Math.abs(Number(catchShoot).toFixed(2))}
+                {Math.abs(Number(data.catch_shoot_pts_diff).toFixed(2))}
             </span>
             <div class = 'icon-down icon'>
                 <Icon
@@ -115,26 +147,26 @@ function getCatchShoot(catchShoot) {
         )
     }
     else {
-        return (<div>
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Catch and Shoot", data)}>
             <span>
                 Catch and Shoot Points:
             </span>
             <span>
-                {catchShoot}
+                {data.catch_shoot_pts_diff}
             </span>
         </div>
         )
     }
 }
-function getPullUp(pullUp) {
+function getPullUp(data, onClickMetric) {
     // Pull Up Shooting
-    if (pullUp > 0) {
-        return (<div class = 'metric-display'>
+    if (data.pull_up_pts_diff > 0) {
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Pull Up Shooting", data)}>
             <span>
                 Pull Up Shooting Points: +
             </span>
             <span class = 'positive-metric'>
-                {Number(pullUp).toFixed(2)}
+                {Number(data.pull_up_pts_diff).toFixed(2)}
             </span>
             <div class = 'icon-up icon'>
                 <Icon
@@ -144,13 +176,13 @@ function getPullUp(pullUp) {
         </div>
         )
     }
-    else if (pullUp < 0) {
-        return (<div class = 'metric-display'>
+    else if (data.pull_up_pts_diff < 0) {
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Pull Up Shooting", data)}>
             <span>
                 Pull Up Shooting Points: -
             </span>
             <span class = 'negative-metric'>
-                {Math.abs(Number(pullUp).toFixed(2))}
+                {Math.abs(Number(data.pull_up_pts_diff).toFixed(2))}
             </span>
             <div class = 'icon-down icon'>
                 <Icon
@@ -161,26 +193,26 @@ function getPullUp(pullUp) {
         )
     }
     else {
-        return (<div>
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Pull Up Shooting", data)}>
             <span>
                 Pull Up Shooting Points:
             </span>
             <span>
-                {pullUp}
+                {data.pull_up_pts_diff}
             </span>
         </div>
         )
     }
 }
-function getOpenThrees(openThrees) {
+function getOpenThrees(data, onClickMetric) {
     // Open Three Pointers
-    if (openThrees > 0) {
-        return (<div class = 'metric-display'>
+    if (data.fg3_pts_diff_open > 0) {
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Open Three Pointers", data)}>
             <span>
                 Open Three Pointers Points: +
             </span>
             <span class = 'positive-metric'>
-                {Number(openThrees).toFixed(2)}
+                {Number(data.fg3_pts_diff_open).toFixed(2)}
             </span>
             <div class = 'icon-up icon'>
                 <Icon
@@ -190,13 +222,13 @@ function getOpenThrees(openThrees) {
         </div>
         )
     }
-    else if (openThrees < 0) {
-        return (<div class = 'metric-display'>
+    else if (data.fg3_pts_diff_open < 0) {
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Open Three Pointers", data)}>
             <span>
                 Open Three Pointers Points: -
             </span>
             <span class = 'negative-metric'>
-                {Math.abs(Number(openThrees).toFixed(2))}
+                {Math.abs(Number(data.fg3_pts_diff_open).toFixed(2))}
             </span>
             <div class = 'icon-down icon'>
                 <Icon
@@ -207,26 +239,26 @@ function getOpenThrees(openThrees) {
         )
     }
     else {
-        return (<div>
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Open Three Pointers", data)}>
             <span>
                 Open Three Pointers Points:
             </span>
             <span>
-                {openThrees}
+                {data.fg3_pts_diff_open}
             </span>
         </div>
         )
     }
 }
-function getContestedThrees(contestedThrees) {
+function getContestedThrees(data, onClickMetric) {
     // Contested Three Pointers
-    if (contestedThrees > 0) {
-        return (<div class = 'metric-display'>
+    if (data.fg3_pts_diff_tight > 0) {
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Contested Three Pointers", data)}>
             <span>
                 Contested Three Pointers Points: +
             </span>
             <span class = 'positive-metric'>
-                {Number(contestedThrees).toFixed(2)}
+                {Number(data.fg3_pts_diff_tight).toFixed(2)}
             </span>
             <div class = 'icon-up icon'>
                 <Icon
@@ -236,13 +268,13 @@ function getContestedThrees(contestedThrees) {
         </div>
         )
     }
-    else if (contestedThrees < 0) {
-        return (<div class = 'metric-display'>
+    else if (data.fg3_pts_diff_tight < 0) {
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Contested Three Pointers", data)}>
             <span>
                 Contested Three Pointers Points: -
             </span>
             <span class = 'negative-metric'>
-                {Math.abs(Number(contestedThrees).toFixed(2))}
+                {Math.abs(Number(data.fg3_pts_diff_tight).toFixed(2))}
             </span>
             <div class = 'icon-down icon'>
                 <Icon
@@ -253,19 +285,20 @@ function getContestedThrees(contestedThrees) {
         )
     }
     else {
-        return (<div>
+        return (<div class = 'metric-display clickable-metrics'  onClick={() => onClickMetric("Contested Three Pointers", data)}>
             <span>
                 Contested Three Pointers Points: 
             </span>
             <span>
-                {contestedThrees}
+                {data.fg3_pts_diff_tight}
             </span>
         </div>
         )
     }
 }
 
-export default function ControlledAccordions({teamReportData, teamReportDailyData}) {
+// Function to populate the accordion with the Box Score and Game Report for the Game Report Page
+export default function ControlledAccordions({teamReportData, teamReportDailyData, onClickMetric}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -288,21 +321,21 @@ export default function ControlledAccordions({teamReportData, teamReportDailyDat
                 <div class = 'accordion-content-container'>
                     <div class = 'top-row accordion-content-row'>
                         <div class = 'top-item accordion-content-item'>
-                            {getDrives(teamReportDailyData[0].drives_diff)}
+                            {getDrives(teamReportDailyData[0], onClickMetric)}
                         </div>
                         <div class = 'top-item accordion-content-item'>
-                            {getCatchShoot(teamReportDailyData[0].catch_shoot_pts_diff)}
+                            {getCatchShoot(teamReportDailyData[0], onClickMetric)}
                         </div>
                         <div class = 'top-item accordion-content-item'>
-                            {getPullUp(teamReportDailyData[0].pull_up_pts_diff)}
+                            {getPullUp(teamReportDailyData[0], onClickMetric)}
                         </div>
                     </div>
                     <div class = 'accordion-content-row'>
                         <div class = 'bottom-item accordion-content-item'>
-                            {getOpenThrees(teamReportDailyData[0].fg3_pts_diff_open)}
+                            {getOpenThrees(teamReportDailyData[0], onClickMetric)}
                         </div>
                         <div class = 'bottom-item accordion-content-item'>
-                            {getContestedThrees(teamReportDailyData[0].fg3_pts_diff_tight)}
+                            {getContestedThrees(teamReportDailyData[0], onClickMetric)}
                         </div>
                     </div>
                 </div>
@@ -318,12 +351,12 @@ export default function ControlledAccordions({teamReportData, teamReportDailyDat
             }
             else {
                 let drives, catchAndShoot, pullUpShooting, openThrees, contestedThrees;
-                drives = getDrives(data.drives_diff);
+                drives = getDrives(data, onClickMetric);
                 // Catch and Shoot
-                catchAndShoot = getCatchShoot(data.catch_shoot_pts_diff);
-                pullUpShooting = getPullUp(data.pull_up_pts_diff);
-                openThrees = getOpenThrees(data.fg3_pts_diff_open);
-                contestedThrees = getContestedThrees(data.fg3_pts_diff_tight);
+                catchAndShoot = getCatchShoot(data, onClickMetric);
+                pullUpShooting = getPullUp(data, onClickMetric);
+                openThrees = getOpenThrees(data, onClickMetric);
+                contestedThrees = getContestedThrees(data, onClickMetric);
                 header = <div className={classes.header}>
                     <Typography className={[classes.secondaryHeading, classes.metricHeading].join(' ')}>Min: {data.min}</Typography>
                     <Typography className={[classes.secondaryHeading, classes.metricHeading].join(' ')}>Points: {data.pts}</Typography>

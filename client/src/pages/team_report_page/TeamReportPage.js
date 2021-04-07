@@ -2,12 +2,10 @@ import React from 'react';
 import { Component } from 'react';
 import axios from 'axios'
 import '../../css/style.css'
-import queryString from 'query-string';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Search from '../../components/search/Search'
 import BarGraphTotal from '../../components/bar_graph_total/BarGraphTotal'
 
+// Team Report Page
 export default class TeamReportPage extends Component{
 
     constructor(props) {
@@ -73,9 +71,6 @@ export default class TeamReportPage extends Component{
     }
 
     componentDidMount() {
-        // const values = queryString.parse(this.props.location.search)
-        // console.log(values.team_id)
-        // this.setState({team_id : values.team_id})
         axios.get('/api/v1/get-teams').then((res) => {
             const response = res.data;
             this.setState({
@@ -93,7 +88,6 @@ export default class TeamReportPage extends Component{
             })
             axios.get('/api/v1/get-team-report-total?team_id=' + team_id).then((res) => {
                 const response = res.data;
-                console.log("Got team total report data" + response)
                 this.setState({
                     teamReportTotal : response,
                     gotTeamReportTotal : true
@@ -148,7 +142,6 @@ export default class TeamReportPage extends Component{
             </div>
         }
         if (this.state.gotTeamReportTotal && this.state.gotMetric) {
-            console.log("Dataset going to graph" + this.state.teamReportTotal)
             teamReportGraph = <BarGraphTotal
                 dataset = {this.state.teamReportTotal}
                 metric = {this.state.metricColumn}

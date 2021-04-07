@@ -2,12 +2,10 @@ import React from 'react';
 import { Component } from 'react';
 import axios from 'axios'
 import '../../css/style.css'
-import queryString from 'query-string';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Search from '../../components/search/Search'
 import BarGraphTotal from '../../components/bar_graph_total/BarGraphTotal'
 
+// Player Report Page
 export default class PlayerReportPage extends Component {
 
     constructor(props) {
@@ -109,7 +107,6 @@ export default class PlayerReportPage extends Component {
         this.setState({
             team_id : team_id
         })
-        console.log(team_id)
     }
 
     updateCategory = (category) => {
@@ -141,7 +138,6 @@ export default class PlayerReportPage extends Component {
         })
         axios.get('/api/v1/get-player-report-total?player_id=' + player_id).then((res) => {
             const response = res.data;
-            console.log("Got team total report data" + response)
             this.setState({
                 playerReportTotal : response,
                 gotPlayerReportTotal : true

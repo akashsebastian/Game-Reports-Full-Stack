@@ -4,28 +4,15 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import axios from 'axios'
-import { format } from "date-fns";
 
-
+//  Component to select the date for Game Reports
 export default function MaterialUIPickers({date, onChangeDate}) {
-  // The first commit of Material-UI
-  // var date = new Date()
-  // // Got yesterday's date
-  // date.setDate(date.getDate() - 1);
   const [selectedDate, setSelectedDate] = React.useState(date);
-  // console.log("Selected date " + selectedDate)
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    // axios.get('/api/v1/get-video-status?date=' + format(date, 'yyyy-MM-dd')).then((res) => {
-    //   const response = res.data;
-    //   console.log(response)
-    //   // this.setState({response});
-    // });
     onChangeDate(date)
   };
 

@@ -1,34 +1,24 @@
 import React from "react";
 import { Component } from 'react';
-import { render } from "react-dom";
 import {withRouter} from 'react-router-dom'
 
 import {
     VictoryBar,
     VictoryChart,
-    VictoryLine,
     VictoryStack,
-    VictoryPie,
     VictoryTheme,
-    VictoryLabel,
-    VictoryGroup,
     VictoryAxis,
     VictoryTooltip
   } from "victory";
 
+// Class to plot Bar Graphs for Team and Player Reports
 class BarGraphTotal extends Component {
     constructor(props) {
         super(props);
     }
-    componentDidMount() {
-        console.log(this.props.dataset)
-        // this.state.dataset.map((data, i) => {
-        //     console.log("Bar graph data: " + data)
-        // })
-    }
+
     transformData(dataset) {
         return dataset.map((data) => {
-            console.log("Data in map:  "+ data)
             let label = '', result, routeVariable;
             if (data.team_id == data.home_team_id) {
                 label += 'vs ' + data.away_team_name;
@@ -52,8 +42,6 @@ class BarGraphTotal extends Component {
                     result = true;
                 }
             }
-            // label += '\n' + this.props.metric + ' : ' + data[this.props.metric] > 0 ? '+' : '' + data[this.props.metric];
-            // label += '\nClick to see Game Report'
             if (this.props.routeVariable == 'game_id') {
                 routeVariable = data[this.props.routeVariable].toString().substring(0,2) == '00' ? data[this.props.routeVariable] : '00' + data[this.props.routeVariable]
             }
@@ -61,12 +49,9 @@ class BarGraphTotal extends Component {
         })
     }
     render() {
-        console.log(this.transformData(this.props.dataset))
         const dataset = this.transformData(this.props.dataset)
-        console.log("Dataset" + dataset)
         return (
             <div>
-                {/* <h1>Bar Graph Total</h1> */}
                 <div className="App">
                     <VictoryChart
                         vertical
@@ -77,15 +62,9 @@ class BarGraphTotal extends Component {
                         animate={{duration: 500}}
                     >
                         <VictoryStack colorScale={["black"]}>
-                        {/* {this.state.dataset.map((data, i) => {
-                            return <VictoryBar data={} />;
-                        })} */}
                         <VictoryBar
                             labelComponent={
-                                <VictoryTooltip
-                                    // pointerLength={0}
-                                    // cornerRadius={0}
-                                />
+                                <VictoryTooltip/>
                             }
                             style = {{
                                 data : {
@@ -124,35 +103,7 @@ class BarGraphTotal extends Component {
                             strokeDasharray: "none"
                             }
                         }}
-                        // tickValues={[-6, -4, -2, 0, 2, 4, 6, 8]}
                         />
-                        {/* <VictoryAxis
-                        crossAxis
-                        offsetX={50}
-                        style={{
-                            axis: {
-                            stroke: "#D6D8DF",
-                            strokeWidth: "1px"
-                            },
-                            // tickLabels: {
-                            // fontSize: 12,
-                            // lineHeight: 18,
-                            // color: "red"
-                            // },
-                            // ticks: {
-                            // stroke: "none"
-                            // },
-                            grid: {
-                            stroke: "none"
-                            }
-                        }}
-                        />
-                        <VictoryAxis
-                        standalone={false}
-                        style={{
-                            axis: { stroke: "gray" }
-                        }}
-                        /> */}
                     </VictoryChart>
                     </div>
             </div>

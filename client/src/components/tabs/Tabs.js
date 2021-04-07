@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Accordion from '../accordion/Accordion'
 
+// Tab Panel component for Game Reports
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -52,14 +53,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function VerticalTabs({awayTeamName, homeTeamName, homeTeamReport, awayTeamReport, homeTeamReportDaily, awayTeamReportDaily}) {
+export default function VerticalTabs({awayTeamName, homeTeamName, homeTeamReport, awayTeamReport, homeTeamReportDaily, awayTeamReportDaily, onClickMetric}) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log("In tab" + homeTeamReportDaily)
   return (
     <div className={classes.root}>
       <Tabs
@@ -78,6 +78,7 @@ export default function VerticalTabs({awayTeamName, homeTeamName, homeTeamReport
             <Accordion
               teamReportData = {awayTeamReport}
               teamReportDailyData = {awayTeamReportDaily}
+              onClickMetric = {onClickMetric}
             />
           </div>
       </TabPanel>
@@ -86,6 +87,7 @@ export default function VerticalTabs({awayTeamName, homeTeamName, homeTeamReport
             <Accordion
               teamReportData = {homeTeamReport}
               teamReportDailyData = {homeTeamReportDaily}
+              onClickMetric = {onClickMetric}
             />
           </div>
       </TabPanel>
