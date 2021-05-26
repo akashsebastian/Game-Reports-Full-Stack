@@ -343,8 +343,23 @@ export default function ControlledAccordions({
         </AccordionDetails>
       </Accordion>
       {teamReportData
-        .sort((a, b) => (a.min < b.min ? 1 : -1))
+        .sort((a, b) => {
+          if (a.min && b.min) {
+            let aMin =
+              parseInt(a.min.split(":")[0]) +
+              parseInt(a.min.split(":")[1]) * 0.01;
+            let bMin =
+              parseInt(b.min.split(":")[0]) +
+              parseInt(b.min.split(":")[1]) * 0.01;
+            if (aMin < bMin) {
+              return 1;
+            }
+            return -1;
+          }
+          return -1;
+        })
         .map((data, i) => {
+          console.log(data);
           let header, details;
           if (data.comment) {
             header = (
