@@ -147,6 +147,14 @@
 }
 .select-stats-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  flex-direction: column;
   margin-top: 10%;
+}
+.select-stats-graph-container {
+  display: flex;
+  justify-content: center;
+}
+.game-report-graph-info {
+  margin-left: 15%;
 }

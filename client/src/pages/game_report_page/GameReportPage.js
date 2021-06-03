@@ -26,6 +26,7 @@ export default class GameReport extends Component {
       awayTeamReportDaily: [],
       gotAwayTeamReportDaily: false,
       selectedStats: null,
+      selectedName: null,
     };
   }
 
@@ -119,10 +120,11 @@ export default class GameReport extends Component {
     return option.visitor_team_name + " at " + option.home_team_name;
   };
 
-  onClickMetric = (metricKey, data) => {
+  onClickMetric = (metricKey, data, selectedName) => {
     this.setState({
       metricKey: metricKey,
       metricData: data,
+      selectedName: selectedName,
     });
   };
   render() {
@@ -191,10 +193,10 @@ export default class GameReport extends Component {
       this.state.gotAwayTeamReportDaily
     ) {
       homeTeamReport = this.state.gameReport.filter(
-        (data) => data.team_id == this.state.score[0].home_team_id
+        (data) => data.team_id === this.state.score[0].home_team_id
       );
       awayTeamReport = this.state.gameReport.filter(
-        (data) => data.team_id == this.state.score[0].away_team_id
+        (data) => data.team_id === this.state.score[0].away_team_id
       );
       tabs = (
         <Tabs
@@ -238,7 +240,20 @@ export default class GameReport extends Component {
               label={this.state.gameLabel}
             ></Search>
           </div>
-          <div class="select-stats-container">{selectedStats}</div>
+          <br />
+          <div class="game-report-graph-info graph-info">
+            <em>- Click the metrics to view the graphs</em>
+          </div>
+          <div class="select-stats-container">
+            <div class="select-stats-graph-container">{selectedStats}</div>
+            <h2 class="game-report-graph-info">{this.state.selectedName}</h2>
+            <em
+              class="game-report-graph-info graph-info"
+              style={{ marginBottom: "3%" }}
+            >
+              {this.state.metricKey && "Metric - " + this.state.metricKey}
+            </em>
+          </div>
         </div>
         <div class="game-report-container report-container">
           <div class="score">{score}</div>

@@ -1,19 +1,16 @@
-import 'date-fns';
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
+import "date-fns";
+import React from "react";
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
+} from "@material-ui/pickers";
 
 //  Component to select the date for Game Reports
-export default function MaterialUIPickers({date, onChangeDate}) {
-  const [selectedDate, setSelectedDate] = React.useState(date);
-
+export default function MaterialUIPickers({ date, onChangeDate }) {
   const handleDateChange = (date) => {
-    setSelectedDate(date);
-    onChangeDate(date)
+    onChangeDate(date);
   };
 
   return (
@@ -29,7 +26,7 @@ export default function MaterialUIPickers({date, onChangeDate}) {
           value={date}
           onChange={handleDateChange}
           KeyboardButtonProps={{
-            'aria-label': 'change date',
+            "aria-label": "change date",
           }}
         />
       </Grid>
